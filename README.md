@@ -54,6 +54,8 @@ All recipes are made for a single eater, you need to multiply quantities to adap
 
 For ordering ingredients, your tool of choice is [Jira](https://www.atlassian.com/software/jira).
 
+You can head [here](https://developer.atlassian.com/server/jira/platform/rest-apis/) to learn more about Jira APIs.
+
 The goal is to add a few routes to your API :
 
 | Method | Route | Description |
@@ -68,6 +70,7 @@ The schema of an order could look like this :
 `GET /orders/21`
 ```json
 {
+  "customer": "Mr. Cakelover",
   "recipe": "chocolate_cake",
   "persons": 4,
   "quantity": 2,
@@ -117,3 +120,30 @@ Have a nice day !
 This is only a simple template, feel free to make it fancier :
 - Better formatting of ingredients (a table ?)
 - Add extra metadata on Jira ticket (due date, order link...)
+
+## Step 2.1 : Jira integration, order batching *(optional)*
+
+Based on the previous step, instead of creating a Jira ticket one by one for each order, we could batch them to create a single ticket per day (created at 6am UTC for example).
+
+This single Jira ticket would contain the sum of all ingredients of all orders passed since the last ticket created.
+
+You will probably need an additional CronJob component for this task. If you need some ideas, it could be :
+- A [Celery periodic-task](https://docs.celeryq.dev/en/stable/userguide/periodic-tasks.html)
+- A [Kubernetes CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
+- Something else ?
+
+## Step 3 : Slack integration
+
+Since all the bakery employees are ex-software engineers, most of the clients are also working in software development.
+
+One of the client suggested that it could be nice to receive a Slack notification whenever an order is ready.
+
+For that, we will need a new API route :
+
+| Method | Route | Description |
+| ------ | ----- | ----------- |
+| `POST` | `/orders/{id}/ready` | Flag a cake order as "ready" |
+
+Whenever we make a call to this API route, it will try to find the customer (using the `customer` field from the `order` schema) on the bakery Slack server and send them a private message using a service account.
+
+You can create a free [Slack](https://slack.com/) server and head [here](https://api.slack.com/) to know more about the Slack API.
