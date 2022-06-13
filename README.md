@@ -9,7 +9,8 @@ As expected, employees started automating everything, from ordering ingredients 
 Your role is to rebuild all the automation processes of the bakery.
 
 > ⚠️ This document is meant to guide you but you are free to add / modify steps if you feel like you can do better or differently
-> ⚠️ Some steps are marked *(optional)*, you are free to skip them if you feel like spending more time on other steps
+
+> ⚠️ Some steps are marked *(optional)*, you are free to skip them if you feel like spending more time on other steps, steps are usually order by importance, meaning Step 2 is more valuable for us than step 7
 
 To get started :
 - Fork this project
@@ -69,7 +70,7 @@ The goal is to add a few routes to your API :
 | `GET` *(optional)* | `/orders` | Get all existing cake orders |
 | `POST` | `/orders` | Place a new cake order |
 | `GET` *(optional)* | `/orders/{id}` | Retrieve a cake order by id |
-| `DELETE` *(optional)* | `/orders/{id}` | Delete a cake order by id |
+| `DELETE` *(optional)* | `/orders/{id}` | Cancel a cake order by id |
 
 The schema of an order could look like this :
 
@@ -138,6 +139,14 @@ You will probably need an additional CronJob component for this task. If you nee
 - A [Kubernetes CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
 - Something else ?
 
+## Step 2.2 : Jira integration, cancelling order *(optional)*
+
+Sometimes, the provider lacks some ingredients.
+
+When it is the case, the provider will add a tag `mising-ingredients` to the ticket and close it.
+
+This will automatically call the `DELETE /orders/{id}` route.
+
 ## Step 3 : Slack integration *(optional)*
 
 Since all the bakery employees are ex-software engineers, most of the clients are also working in software development.
@@ -153,6 +162,16 @@ For that, we will need a new API route :
 Whenever we make a call to this API route, it will try to find the customer (using the `customer` field from the `order` schema) on the bakery Slack server and send them a private message using a service account.
 
 You can create a free [Slack](https://slack.com/) server and head [here](https://api.slack.com/) to know more about the Slack API.
+
+## Step 3.1 : Mail notification *(optional)*
+
+Since some customers do not have a Slack account and want to stay old-school, we might need to send an email.
+
+If the automation tool can't find the customer on Slack, fallback to sending an email to `{customer}@gmail.com`.
+
+For example, if the customer is `Mr Cakelover`, the resulting email address could be `mr_cakelover@gmail.com`.
+
+You can book a cheap email address to send mails from [here](https://privateemail.com/) and use SMTP to automate the process.
 
 ## Step 4 : GitHub integration *(optional)*
 
@@ -183,3 +202,75 @@ The employee schema could look like this :
 When an employee `permissions.developer` is `true`, we should grant them access to this repository (your fork).
 
 You can check the GitHub API documentation right [here](https://docs.github.com/en/rest)
+
+## Step 5 : Google Drive integration *(optional)*
+
+We would like to keep track all cancelled orders into a Google Drive folder.
+
+Whenever an order is cancelled using the `DELETE /orders/{id}` route, create / edit a document on a Google Drive directory per customer.
+
+For example, the Google Drive directory should look like this :
+```
+Orders/
+  mr_cakelover.doc
+  ms_delicious.doc
+```
+
+Each document will contain the following informations :
+
+```
+Title: Mr Cakelover cancelled orders
+
+- Order 21 [Chocolate Cake] : Date 01/01/2022 06:10
+- Order 101 [Carrot Cake] : Date 20/04/2022 14:30
+```
+
+Once again, feel free to edit the template !
+
+The document can either be a [Google Doc](https://developers.google.com/docs/api) or a [Google Sheet](https://developers.google.com/sheets/api)
+
+## Step 6 : Frontend *(optional)*
+
+An API is quite useful but for non-technical people, it can be quite hard to use.
+
+If you want to, you can create a small front app to interact with your API.
+
+Ideally, it would cover some of the routes defined above (you don't have to implement all the routes).
+
+Feel free to use your favorite framework !
+
+## Step 7 : Deployment *(optional)*
+
+Now that your application is quite complete, it is time to deploy it !
+
+You are free to deploy it however you want, show us your skills !
+
+Here are a few ideas :
+- Kubernetes application running on [Scaleway Kapsule](https://www.scaleway.com/en/kubernetes-kapsule/) or [AWS EKS](https://aws.amazon.com/eks/)
+- Serverless container running on [Scaleway Serverless containers](https://www.scaleway.com/en/serverless-containers/)
+- Application running on [Heroku](https://www.heroku.com/)
+- Something else ?
+
+Ideally, you would be able to provide us a link to your application in production so we can test it.
+
+Please fill out this form with all URLs used for this project :
+
+| Component | URL |
+| ------ | ----- |
+| Python API | `YOUR_URL_HERE` |
+| Frontend app | `YOUR_URL_HERE` |
+| Jira Workspace | `YOUR_URL_HERE` |
+| Slack server | `YOUR_URL_HERE` |
+
+This is the perfect step to get extra fancy, here are a few ideas you can do (optional of course) :
+- Use a real domain (you can book free ones) and a certificate (Let's Encrypt can provide free certificates as well)
+- Add a CI/CD pipeline to your repository
+  - Lint and perform tests on your API
+  - Deploy / build image of your application and deploy it automatically
+  - Send a Slack notification if a build went wrong
+- Store all credentials using Hashicorp Vault, AWS or Kubernetes secrets
+- More ?
+
+## Step 8 : Feedback
+
+On your fork repository, edit the `FEEDBACK.md` document :)
