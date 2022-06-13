@@ -11,6 +11,12 @@ Your role is to rebuild all the automation processes of the bakery.
 > ⚠️ This document is meant to guide you but you are free to add / modify steps if you feel like you can do better or differently
 > ⚠️ Some steps are marked *(optional)*, you are free to skip them if you feel like spending more time on other steps
 
+To get started :
+- Fork this project
+- Make it private (this is important)
+- Add `ktollec-ledger` to your fork with view permissions on the repository settings
+- Good luck !
+
 ## Step 1 : The API
 
 The old automation system was messy and all over the place. The bakery learned from their mistake and will not do it twice.
@@ -132,7 +138,7 @@ You will probably need an additional CronJob component for this task. If you nee
 - A [Kubernetes CronJob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
 - Something else ?
 
-## Step 3 : Slack integration
+## Step 3 : Slack integration *(optional)*
 
 Since all the bakery employees are ex-software engineers, most of the clients are also working in software development.
 
@@ -147,3 +153,33 @@ For that, we will need a new API route :
 Whenever we make a call to this API route, it will try to find the customer (using the `customer` field from the `order` schema) on the bakery Slack server and send them a private message using a service account.
 
 You can create a free [Slack](https://slack.com/) server and head [here](https://api.slack.com/) to know more about the Slack API.
+
+## Step 4 : GitHub integration *(optional)*
+
+Everyone at the bakery is super satisfied of your new automation tool. New hires would like to help you working on your project.
+
+Since the bakery is quite big, it is tedious to grant access to every new hire manually. It would be quite useful to have a new-hire onboarding route on your API :
+
+| Method | Route | Description |
+| ------ | ----- | ----------- |
+| `GET` *(optional)* | `/employees` | Get all bakery employees |
+| `POST` | `/employees` | Create a new bakery employee |
+| `GET` *(optional)* | `/employees/{id}` | Get an employee by id |
+| `DELETE` *(optional)* | `/employees/{id}` | Fire a bakery employee |
+
+The employee schema could look like this :
+
+`GET /employees/10`
+```json
+{
+  "firstName": "Jack",
+  "lastName": "Harrot",
+  "permissions": {
+    "developer": true
+  }
+}
+```
+
+When an employee `permissions.developer` is `true`, we should grant them access to this repository (your fork).
+
+You can check the GitHub API documentation right [here](https://docs.github.com/en/rest)
