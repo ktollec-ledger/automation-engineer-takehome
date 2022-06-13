@@ -173,7 +173,33 @@ For example, if the customer is `Mr Cakelover`, the resulting email address coul
 
 You can book a cheap email address to send mails from [here](https://privateemail.com/) and use SMTP to automate the process.
 
-## Step 4 : GitHub integration *(optional)*
+## Step 4 : Google Drive integration *(optional)*
+
+We would like to keep track all cancelled orders into a Google Drive folder.
+
+Whenever an order is cancelled using the `DELETE /orders/{id}` route, create / edit a document on a Google Drive directory per customer.
+
+For example, the Google Drive directory should look like this :
+```
+Orders/
+  mr_cakelover.doc
+  ms_delicious.doc
+```
+
+Each document will contain the following informations :
+
+```
+Title: Mr Cakelover cancelled orders
+
+- Order 21 [Chocolate Cake] : Date 01/01/2022 06:10
+- Order 101 [Carrot Cake] : Date 20/04/2022 14:30
+```
+
+Once again, feel free to edit the template !
+
+The document can either be a [Google Doc](https://developers.google.com/docs/api) or a [Google Sheet](https://developers.google.com/sheets/api)
+
+## Step 5 : GitHub integration *(optional)*
 
 Everyone at the bakery is super satisfied of your new automation tool. New hires would like to help you working on your project.
 
@@ -202,32 +228,6 @@ The employee schema could look like this :
 When an employee `permissions.developer` is `true`, we should grant them access to this repository (your fork).
 
 You can check the GitHub API documentation right [here](https://docs.github.com/en/rest)
-
-## Step 5 : Google Drive integration *(optional)*
-
-We would like to keep track all cancelled orders into a Google Drive folder.
-
-Whenever an order is cancelled using the `DELETE /orders/{id}` route, create / edit a document on a Google Drive directory per customer.
-
-For example, the Google Drive directory should look like this :
-```
-Orders/
-  mr_cakelover.doc
-  ms_delicious.doc
-```
-
-Each document will contain the following informations :
-
-```
-Title: Mr Cakelover cancelled orders
-
-- Order 21 [Chocolate Cake] : Date 01/01/2022 06:10
-- Order 101 [Carrot Cake] : Date 20/04/2022 14:30
-```
-
-Once again, feel free to edit the template !
-
-The document can either be a [Google Doc](https://developers.google.com/docs/api) or a [Google Sheet](https://developers.google.com/sheets/api)
 
 ## Step 6 : Frontend *(optional)*
 
