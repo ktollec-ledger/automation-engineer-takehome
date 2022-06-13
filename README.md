@@ -143,7 +143,7 @@ You will probably need an additional CronJob component for this task. If you nee
 
 Sometimes, the provider lacks some ingredients.
 
-When it is the case, the provider will add a tag `mising-ingredients` to the ticket and close it.
+When it is the case, the provider will add a tag `missing-ingredients` to the ticket and close it.
 
 This will automatically call the `DELETE /orders/{id}` route.
 
