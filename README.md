@@ -246,9 +246,8 @@ Now that your application is quite complete, it is time to deploy it !
 You are free to deploy it however you want, show us your skills !
 
 Here are a few ideas :
-- Kubernetes application running on [Scaleway Kapsule](https://www.scaleway.com/en/kubernetes-kapsule/) or [AWS EKS](https://aws.amazon.com/eks/)
-- Serverless container running on [Scaleway Serverless containers](https://www.scaleway.com/en/serverless-containers/)
 - Application running on [Heroku](https://www.heroku.com/)
+- Free Kubernetes cluster on [IBM Cloud](https://www.ibm.com/cloud/free)
 - Something else ?
 
 Ideally, you would be able to provide us a link to your application in production so we can test it.
