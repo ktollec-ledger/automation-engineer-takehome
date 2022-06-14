@@ -61,7 +61,7 @@ All recipes are made for a single eater, you need to multiply quantities to adap
 
 For ordering ingredients, your tool of choice is [Jira](https://www.atlassian.com/software/jira).
 
-You can head [here](https://developer.atlassian.com/server/jira/platform/rest-apis/) to learn more about Jira APIs.
+You can register [here](https://www.atlassian.com/software/jira/free) for a free account and then head [here](https://developer.atlassian.com/server/jira/platform/rest-apis/) to learn more about Jira APIs.
 
 The goal is to add a few routes to your API :
 
@@ -171,7 +171,7 @@ If the automation tool can't find the customer on Slack, fallback to sending an 
 
 For example, if the customer is `Mr Cakelover`, the resulting email address could be `mr_cakelover@gmail.com`.
 
-You can book a cheap email address to send mails from [here](https://privateemail.com/) and use SMTP to automate the process.
+You can create a dummy GMail address to be able to interact with it using SMTP.
 
 ## Step 4 : Google Drive integration *(optional)*
 
